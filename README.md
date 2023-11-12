@@ -4,7 +4,7 @@
 Building a RISC V processor in Verilog to demonstrate a diverging sequence a 7-segment display of Basys-3 board.
 
 ## Architecture
-![App Screenshot](./Screenshot 2023-11-13 001953.png)
+![App Screenshot](Screenshot 2023-11-13 001953.png)
 
 
 

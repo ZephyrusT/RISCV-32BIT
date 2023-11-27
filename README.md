@@ -84,6 +84,16 @@ The branch type instruction(beq) consist of rs1 and rs2 as the source registers 
 U-type instructions have the following format.
 //image
 The U-type instruction(LUI) consist of a destination register and only a immediate value. The immediate value determines what value is needed to be entered in the upper 20 bit of the 32 bit register. The datapath is illustrated below.
- 
 
+
+## Design of Control Path
+
+## Execution example
+
+## Testing in FPGA
+
+## References
+Sarah Harris playlist on RISC-V[link](https://youtu.be/lrN-uBKooRY)
+
+MERL DSU playlist on RISC-V[link](https://www.youtube.com/watch?v=BVvDHhG0RoA&list=PL5AmAh9QoSK7Fwk9vOJu-3VqBng_HjGFc)
 

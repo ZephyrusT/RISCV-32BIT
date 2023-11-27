@@ -64,17 +64,17 @@ R-Type instructions have the following format.
 ![App Screenshot](./images/R-Type.png)
 The R-type instruction involves the utilization of two source registers that hold the necessary data for the arithmetic or logical operation, as well as a destination register where the data is to be stored upon completion of the action.
 The data stored in the registers is accessible by utilizing the addresses A1 and A2, whereas the address A3 contains the target register's address. The values to be operated on are defined by the signals RD1 and RD2, which are subsequently inserted into the Arithmetic Logic Unit (ALU). Following the specified operation, the result is returned and saved back in the register file. 
-![App Screenshot](.images/R-type-dp.png)
+![App Screenshot](./images/R-type-dp.png)
 #### I-type instructions
 I-type instructions have the following format.
 ![App Screenshot](./images/I-type.png)
 The I-type instruction consist of destination register, source register and an immediate value. Here A1 gets the address of the source register from where the actual data is extracted and the extend block gets the immediate value. A3 gets the destination address.The ALU performs the respective operation between the extracted data and the immediate value and provides the output which is then fed back and stored at address A3 in the register file.
-![App Screenshot](.images/I-type-dp.png)
+![App Screenshot](./images/I-type-dp.png)
 #### S-type instructions
 S-type instructions have the following format.
 ![App Screenshot](./images/S-type.png)
 The Store instruction consist of the two source registers rs1 and rs2 and a immediate value. Data stored at rs1 is added with the offset(immediate value) to get the address where the data needs to be stored. Register rs2 contains the data which is required to be stored at the address determined previously in the data memory.
-![App Screenshot](.images/S-type-dp.png)
+![App Screenshot](./images/S-type-dp.png)
 #### B-type instructions
 B-type instructions have the following format.
 ![App Screenshot](./images/B-type.png)

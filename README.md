@@ -21,11 +21,13 @@ Building a RISC V processor in Verilog to demonstrate a diverging sequence a 7-s
 | add | addi  | sw  | beq  | lui | jal  |
 | sub | ori  |  |  |   |    |
 |slt  | andi  |   |   |   |    |
+| sltu  |  |   |   |   |    |
 | or  |  lw |   |   |   |    |
 | and  |  |   |   |   |    |
 | xor  |  |   |   |   |    |
 | sll  |  |   |   |   |    |
 | srl  |  |   |   |   |    |
+| sra  |  |   |   |   |    |
 
 
 ## Brief intro of each blocks

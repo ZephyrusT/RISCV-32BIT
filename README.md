@@ -19,16 +19,15 @@ Building a RISC V processor in Verilog to demonstrate a diverging sequence a 7-s
 | R-type | I-type | S-type | B-type | U-type | J-type |
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | 
 | add | addi  | sw  | beq  | lui | jal  |
-| sub | ori  |  |  |   |    |
-|slt  | andi  |   |   |   |    |
-| sltu  |slti  |   |   |   |    |
-| or  | sltiu |   |   |   |    |
-| and  | lw  |   |   |   |    |
+| sub | ori  |  |  bne|   |    |
+|slt  | andi  |   | blt  |   |    |
+| sltu  |slti  |   | bge  |   |    |
+| or  | sltiu |   | bltu  |   |    |
+| and  | lw  |   | bgeu  |   |    |
 | xor  | xori |   |   |   |    |
 | sll  |slli  |   |   |   |    |
 | srl  | srli |   |   |   |    |
 | sra  | srai |   |   |   |    |
-
 
 ## Brief intro of each blocks
 ### Program counter :- 

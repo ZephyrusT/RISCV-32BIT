@@ -32,6 +32,10 @@ Building a RISC V processor in Verilog to demonstrate a diverging sequence a 7-s
 | sll  |slli  |   |   |   |    |
 | srl  | srli |   |   |   |    |
 | sra  | srai |   |   |   |    |
+|  | lb |   |   |   |    |
+|  | lh |   |   |   |    |
+|   | lbu |   |   |   |    |
+|   | lhu |   |   |   |    |
 
 ## Brief intro of each blocks
 ### Program counter :- 

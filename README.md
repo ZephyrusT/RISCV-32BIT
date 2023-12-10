@@ -16,11 +16,12 @@ Building a RISC V processor in Verilog to demonstrate a diverging sequence a 7-s
 4. Supported list of instructons :-
 
 
+
 | R-type | I-type | S-type | B-type | U-type | J-type |
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | 
 | add | addi  | sw  | beq  | lui | jal  |
-| sub | ori  |  |  bne|   |    |
-|slt  | andi  |   | blt  |   |    |
+| sub | ori  | sb |  bne|   |    |
+|slt  | andi  | sh  | blt  |   |    |
 | sltu  |slti  |   | bge  |   |    |
 | or  | sltiu |   | bltu  |   |    |
 | and  | lw  |   | bgeu  |   |    |

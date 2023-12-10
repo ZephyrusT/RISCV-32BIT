@@ -17,6 +17,7 @@ Building a RISC V processor in Verilog to demonstrate a diverging sequence a 7-s
 2. Size of Register :- 32 locations and 32 bits each
 3. Size of Data Memory :- 1024 locations and 32 bits each
 4. Supported list of instructons :-
+     (All base instructions except for FENCE, ECALL, EBREAK, CSSRRW)
 
 
 

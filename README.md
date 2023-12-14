@@ -6,6 +6,9 @@ Building a RISC V processor in Verilog to demonstrate a diverging sequence a 7-s
 ## Architecture
 ![App Screenshot](image.png)
 
+##Currently working on
+
+CSR register and handling interrupts and exceptions
 
 ##Things to be modified
 1. MemWrite changed to 2 bits from 1 bit

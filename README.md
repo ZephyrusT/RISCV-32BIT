@@ -11,7 +11,7 @@ Building a RISC V processor in Verilog to demonstrate a diverging sequence a 7-s
 1. CSR register and handling interrupts and exceptions.
 2. Handling of hazardS for CSR.
    
-##Updates
+## Updates 16/12/23
 1. Added CSR register which can handle CSRRW, CSRRS, CSRRC, CSRRWI, CSRRCI.
 2. CSR register implementation for unpriveileged counters and cycle counter
 

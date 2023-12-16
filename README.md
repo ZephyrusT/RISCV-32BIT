@@ -9,11 +9,11 @@ Building a RISC V processor in Verilog to demonstrate a diverging sequence a 7-s
 ## Currently working on
 
 1. CSR register and handling interrupts and exceptions.
-2. Handling of hazardS for CSR.
+2. Handling of hazards for CSR.
    
 ## Updates 16/12/23
 1. Added CSR register which can handle CSRRW, CSRRS, CSRRC, CSRRWI, CSRRCI.
-2. CSR register implementation for unpriveileged counters and cycle counter
+2. CSR register implementation for unpriveileged counter and cycle counter
 
 ## Things to be modified
 Priority: Add another mux to select between RD1 and RS1D for csrrs and csrrsi respectively.

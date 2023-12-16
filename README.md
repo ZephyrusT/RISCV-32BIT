@@ -8,12 +8,18 @@ Building a RISC V processor in Verilog to demonstrate a diverging sequence a 7-s
 
 ## Currently working on
 
-CSR register and handling interrupts and exceptions
+1. CSR register and handling interrupts and exceptions.
+2. Handling of hazardS for CSR.
+   
+##Updates
+1. Added CSR register which can handle CSRRW, CSRRS, CSRRC, CSRRWI, CSRRCI.
+2. CSR register implementation for unpriveileged counters and cycle counter
 
 ## Things to be modified
-1. MemWrite changed to 2 bits from 1 bit
-2.  RegWrite changed to 3 bits from 1 bit.
-
+1. MemWrite changed to 2 bits from 1 bit.
+2. RegWrite changed to 3 bits from 1 bit.
+3. Addition of CSR block consisting of CSR reg and MUX.
+4. Control path for CSR register.
 
 ## Specifications
 1. FPGA display Clock speed :- 10Hz

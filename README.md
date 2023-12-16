@@ -47,6 +47,12 @@ Priority: Add another mux to select between RD1 and RS1D for csrrs and csrrsi re
 |  | lh |   |   |   |    |
 |   | lbu |   |   |   |    |
 |   | lhu |   |   |   |    |
+|   | csrrw |   |   |   |    |
+|   | csrrs |   |   |   |    |
+|   | csrrc |   |   |   |    |
+|   | csrrwi |   |   |   |    |
+|   | csrrsi |   |   |   |    |
+|   | csrrci |   |   |   |    |
 
 ## Brief intro of each blocks
 ### Program counter :- 

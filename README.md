@@ -1,6 +1,8 @@
 
 # RISC-V 32 BIT VERILOG AND FPGA IMPLEMENTATION
 
+[Files inside the `sources` folder are the latest files. Will remove the root files once everything is completed]
+
 Building a RISC V processor in Verilog to demonstrate a diverging sequence a 7-segment display of Basys-3 board. [Done and tested!]
 
 ## Architecture

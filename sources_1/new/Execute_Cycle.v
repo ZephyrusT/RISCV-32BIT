@@ -30,13 +30,17 @@ module Execute_Cycle(
     PCTargetE,PCSrcE,
     ALUResultM, WriteDataM, PCPlus4M, RDM, RegWriteM,MemWriteM,ResultSrcM,
     ResultW,JumpE,
-    Forward_AE, Forward_BE
+    Forward_AE, Forward_BE,
+    PCM, ImmExtM,RD1M,RS1E,
+    CSR_reg_wrE, CSR_reg_rdE,RS1M,
+    CSR_reg_wrM, CSR_reg_rdM,CSR_wd_selectM,CSR_wd_selectE,RD1E_RS1E_sel,RD1M_RS1M_sel
+    
     );
     
     input clk, rst;
     
     input [31:0]RD1E, RD2E, PCE, ImmExtE, PCPlus4E;
-    input BranchE,JumpE, ALUSrcE;
+    input BranchE,JumpE, ALUSrcE, CSR_reg_wrE, CSR_reg_rdE;
     input [2:0]RegWriteE;
     input [1:0]MemWriteE;
 //    input [2:0]ALUControlE;
@@ -44,14 +48,22 @@ module Execute_Cycle(
     input [4:0]RDE;
     input [31:0]ResultW; // for hazard
     input [1:0]Forward_AE, Forward_BE,ResultSrcE;
+    input [1:0]CSR_wd_selectE;
+    input RD1E_RS1E_sel;
+    input [4:0]RS1E;
     
-    output [31:0]PCTargetE;
+    output [31:0]PCTargetE, PCM, ImmExtM;
     output [31:0]ALUResultM, WriteDataM, PCPlus4M;
     output [4:0]RDM;
-    output  PCSrcE;
+    output  PCSrcE, CSR_reg_wrM, CSR_reg_rdM;
     output [2:0]RegWriteM;
     output [1:0]MemWriteM;
     output [1:0]ResultSrcM;
+    output [31:0]RD1M;
+    output [1:0]CSR_wd_selectM;
+    output RD1M_RS1M_sel;
+    output [4:0]RS1M;
+    
 //    output 
     
     //intermediate registers
@@ -59,8 +71,12 @@ module Execute_Cycle(
     reg [1:0]ResultSrcE_r, MemWriteE_r;
 //    reg [2:0]ALUControlE_r;
     reg [5:0]ALUControlE_r;
-    reg [31:0]ResultE_r, WriteDataE_r, PCPlus4E_r;
+    reg [31:0]ResultE_r, WriteDataE_r, PCPlus4E_r,PCE_r, ImmExtE_r,RD1E_r;
     reg [4:0]RDE_r;
+    reg CSR_reg_wrE_r, CSR_reg_rdE_r;
+    reg [1:0]CSR_wd_selectE_r;
+    reg RD1E_RS1E_sel_r;
+    reg [4:0]RS1E_r;
     
     wire zeroE;
     wire [31:0]SrcBE, ResultE, SrcAE, SrcBE_haz;
@@ -115,6 +131,14 @@ module Execute_Cycle(
             WriteDataE_r <=32'h0000_0000;
             RDE_r <=5'h00;
             PCPlus4E_r <=32'h0000_0000;
+            PCE_r<= 32'h0000_0000;
+            ImmExtE_r<=32'h0000_0000;
+            RD1E_r<=32'h0000_0000;
+            CSR_reg_wrE_r<=1'b0;
+            CSR_reg_rdE_r<=1'b0;
+            CSR_wd_selectE_r<=2'b00;
+            RD1E_RS1E_sel_r<=1'b0;
+            RS1E_r<=5'h000_00;
         end
         else begin
             RegWriteE_r <=RegWriteE;
@@ -125,6 +149,14 @@ module Execute_Cycle(
             WriteDataE_r <=SrcBE_haz ;
             RDE_r <= RDE;
             PCPlus4E_r <=PCPlus4E;
+            PCE_r<=PCE;
+            ImmExtE_r<=ImmExtE;
+            RD1E_r<=RD1E;
+            CSR_reg_wrE_r<=CSR_reg_wrE;
+            CSR_reg_rdE_r<=CSR_reg_rdE;
+            CSR_wd_selectE_r<=CSR_wd_selectE;
+            RD1E_RS1E_sel_r<=RD1E_RS1E_sel;
+            RS1E_r<=RS1E;
         end
     end
     
@@ -139,6 +171,14 @@ module Execute_Cycle(
     assign WriteDataM = (rst==1'b0)?32'h0000_0000:WriteDataE_r;
     assign RDM = (rst==1'b0)?5'b0_0000:RDE_r;
     assign PCPlus4M = (rst==1'b0)?32'h0000_0000:PCPlus4E_r;  
-    
+    assign PCM = (rst==1'b0)?32'h0000_0000:PCE_r;//modified
+    assign ImmExtM = (rst==1'b0)?32'h0000_0000:ImmExtE_r;
+    assign RD1M = (rst==1'b0)?32'h0000_0000:RD1E_r;
+    //csr
+    assign CSR_reg_wrM = (rst==1'b0)?1'b0:CSR_reg_wrE_r;
+    assign CSR_reg_rdM = (rst==1'b0)?1'b0:CSR_reg_rdE_r; 
+    assign CSR_wd_selectM = (rst==1'b0)?2'b00:CSR_wd_selectE_r;
+    assign RD1M_RS1M_sel = (rst == 1'b0)?1'b0:RD1E_RS1E_sel_r;
+    assign RS1M = (rst == 1'b0)?5'h000_00:RS1E_r;
     
 endmodule

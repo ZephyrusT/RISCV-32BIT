@@ -28,8 +28,9 @@ module Decode_Cycle(
     RD1E, RD2E, PCE, RDE, ImmExtE, PCPlus4E, RS1E, RS2E,
     RegWriteW,RDW, ResultW,
     clk, rst,
-    Flush,RS1D_haz,RS2D_haz//stalling logic
+    Flush,RS1D_haz,RS2D_haz,//stalling logic
    // digits_to_display ///fpga modifications
+   CSR_reg_wrE,CSR_reg_rdE,CSR_wd_selectE, RD1E_RS1E_sel//csr modifications
     );
     input [31:0]InstrD, PCD, PCPlus4D, ResultW;
     input clk, rst;
@@ -38,8 +39,11 @@ module Decode_Cycle(
     input Flush;
     
     output [31:0]RD1E, RD2E, PCE, ImmExtE, PCPlus4E;
-    output  BranchE, ALUSrcE, JumpE;
+    output  BranchE, ALUSrcE, JumpE, CSR_reg_wrE, CSR_reg_rdE;
     output [2:0]RegWriteE;
+    output [1:0]CSR_wd_selectE;
+    output RD1E_RS1E_sel;
+    
 //    output [2:0]ALUControlE;
     output [5:0]ALUControlE;
     output [4:0]RS1E, RS2E, RDE;
@@ -54,14 +58,19 @@ module Decode_Cycle(
     wire [2:0]ImmSrcD;
 //    wire [2:0]ALUControlD;
     wire [5:0]ALUControlD;
+    wire CSR_reg_wrD,CSR_reg_rdD;
+    wire [1:0]CSR_wd_selectD;
     //Intermediate Registers
     reg [31:0]RD1D_r, RD2D_r, Imm_ExtD_r,PCD_r, PCPlus4D_r;
-    reg ALUSrcD_r, BranchD_r, JumpD_r; 
+    reg ALUSrcD_r, BranchD_r, JumpD_r,CSR_reg_wrD_r, CSR_reg_rdD_r; 
+    reg [1:0]CSR_wd_selectD_r;
     reg [2:0]RegWriteD_r;
     reg [1:0]ResultSrcD_r, MemWriteD_r;
+    reg RD1D_RS1D_sel_r;
 //    reg [2:0]ALUControlD_r;
     reg [5:0]ALUControlD_r;
     reg [4:0]RdD_r, RS1D_r, RS2D_r;
+    wire RD1D_RS1D_sel;
     
     Control_Unit_Top Control_Unit( 
     .Op(InstrD[6:0]),
@@ -74,7 +83,13 @@ module Decode_Cycle(
     .ResultSrc(ResultSrcD),
     .Branch(BranchD),
     .ALUControl(ALUControlD),
-    .Jump(JumpD)
+    .Jump(JumpD),
+    .CSR_reg_wr(CSR_reg_wrD),
+    .CSR_reg_rd(CSR_reg_rdD),
+    .RS1D(InstrD[19:15]), // for CSRs
+    .RdD(InstrD[11:7]),
+    .CSR_wd_select(CSR_wd_selectD), 
+    .RD1_RS1_sel(RD1D_RS1D_sel)
     );
     
        
@@ -115,15 +130,23 @@ module Decode_Cycle(
             PCPlus4D_r<=32'h0000_0000;
             RS1D_r <=5'h00;
             RS2D_r<=5'h00;
+            CSR_reg_wrD_r<=1'b0;
+            CSR_reg_rdD_r<=1'b0;
+            CSR_wd_selectD_r<=2'b00;
+            RD1D_RS1D_sel_r<=1'b0;
         end
      else if (Flush) begin
             RegWriteD_r <=3'b000;
             ALUSrcD_r<=1'b0;
             MemWriteD_r<=2'b00;
             JumpD_r<=1'b0;
-            ResultSrcD_r<=2'b00;        //what signals to reset during stalling
+            ResultSrcD_r<=2'b00;        //what signals to reset during flush
             BranchD_r<=1'b0;
             ALUControlD_r <=6'b000_000;
+            CSR_reg_wrD_r<=1'b0;
+            CSR_reg_rdD_r<=1'b0;
+            CSR_wd_selectD_r<=2'b00;
+            RD1D_RS1D_sel_r<=1'b0;
 end
         else begin
             RegWriteD_r <=RegWriteD;
@@ -141,6 +164,10 @@ end
             PCPlus4D_r<=PCPlus4D;
             RS1D_r <=InstrD[19:15];
             RS2D_r<=InstrD[24:20];
+            CSR_reg_wrD_r<= CSR_reg_wrD;
+            CSR_reg_rdD_r<= CSR_reg_rdD;
+            CSR_wd_selectD_r<=CSR_wd_selectD;
+            RD1D_RS1D_sel_r<=RD1D_RS1D_sel;
             
         end
        end
@@ -163,4 +190,10 @@ end
         //  Stalling logic
         assign RS1D_haz = (rst==1'b0)?5'b0_0000:InstrD[19:15];
         assign RS2D_haz = (rst==1'b0)?5'b0_0000:InstrD[24:20];
+        
+        //csr control
+        assign CSR_reg_wrE = (rst==1'b0)?1'b0:CSR_reg_wrD_r;
+        assign CSR_reg_rdE = (rst==1'b0)?1'b0:CSR_reg_rdD_r;
+        assign CSR_wd_selectE = (rst == 1'b0)?2'b00:CSR_wd_selectD_r;
+        assign RD1E_RS1E_sel = (rst == 1'b0)?1'b0:RD1D_RS1D_sel_r;
 endmodule

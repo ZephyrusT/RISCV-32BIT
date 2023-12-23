@@ -58,9 +58,13 @@ module Pipelined_Top(
      wire [1:0]ForwardAE,ForwardBE,ResultSrcE,ResultSrcW,ResultSrcM,MemWriteM,
           MemWriteE; //for handling hazards
      wire [31:0]digits_to_display, read_data;
-     
+     wire [31:0]CSR_rdataW, PCM,ImmExtM, RD1M;
      //fpga wires
-    wire [3:0] w1, w2, w3, w4;    
+     wire [3:0] w1, w2, w3, w4;
+     wire CSR_reg_wrM, CSR_reg_rdM,CSR_reg_wrE,CSR_reg_rdE;    
+     wire [1:0]CSR_wd_selectE,CSR_wd_selectM; 
+     wire RD1E_RS1E_sel,RD1M_RS1M_sel;
+     wire [4:0]RS1M;
     //Fetch cycle
     Fetch_Cycle Fetch_Cycle( 
     .clk(clk), 
@@ -102,9 +106,15 @@ module Pipelined_Top(
     //stalling logic
     .RS1D_haz(RS1D),
     .RS2D_haz(RS2D),
-    .Flush(FlushE) 
+    .Flush(FlushE), 
 //    .digits_to_display()//"digits_to_display" for fpga
+//csr
+    .CSR_reg_wrE(CSR_reg_wrE),
+    .CSR_reg_rdE(CSR_reg_rdE),
+    .CSR_wd_selectE(CSR_wd_selectE),
+    .RD1E_RS1E_sel(RD1E_RS1E_sel)
     );
+    
     //Execute cycle
     Execute_Cycle Execute_Cycle(
     .clk(clk), 
@@ -133,7 +143,20 @@ module Pipelined_Top(
     .ResultSrcM(ResultSrcM),
     .ResultW(ResultW),
     .Forward_AE(ForwardAE), 
-    .Forward_BE(ForwardBE)
+    .Forward_BE(ForwardBE),
+    .PCM(PCM), //modified
+    .ImmExtM(ImmExtM),//modified
+    .CSR_reg_wrE(CSR_reg_wrE), 
+    .CSR_reg_rdE(CSR_reg_rdE),
+    .CSR_reg_wrM(CSR_reg_wrM), 
+    .CSR_reg_rdM(CSR_reg_rdM),
+    .RD1M(RD1M),
+    .CSR_wd_selectE(CSR_wd_selectE),
+    .CSR_wd_selectM(CSR_wd_selectM),
+    .RD1E_RS1E_sel(RD1E_RS1E_sel),
+    .RD1M_RS1M_sel(RD1M_RS1M_sel),
+    .RS1E(RS1E),
+    .RS1M(RS1M)
     );
     
     //Memory cycle
@@ -153,7 +176,16 @@ module Pipelined_Top(
     .ReadDataW(ReadDataW), 
     .RDW(RDW),
     .PCPlus4W(PCPlus4W),
-    .read_data(read_data) // for fpga 
+    .read_data(read_data), // for fpga
+    .PCM(PCM),
+    .ImmExtM(ImmExtM),
+    .RD1M(RD1M),
+    .CSR_rdataW(CSR_rdataW),//csr 
+    .CSR_reg_wrM(CSR_reg_wrM),
+    .CSR_reg_rdM(CSR_reg_rdM),
+    .CSR_wd_selectM(CSR_wd_selectM),
+    .RD1M_RS1M_sel(RD1M_RS1M_sel),
+    .RS1M(RS1M)
     );
     
     WriteBack_Cycle  WriteBack_Cycle(
@@ -163,8 +195,10 @@ module Pipelined_Top(
          .ResultSrcW(ResultSrcW), 
          .ALUResultW(ALUResultW), 
          .ReadDataW(ReadDataW), 
-         .PCPlus4W(PCPlus4W)   
+         .PCPlus4W(PCPlus4W),
+         .CSR_rdataW(CSR_rdataW)   
     );
+    
     Hazard_Unit hazard(
     .rst(rst), 
     .RegWriteM(RegWriteM), 

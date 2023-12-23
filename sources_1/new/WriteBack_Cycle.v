@@ -22,18 +22,19 @@
 `include "Mux3.v"
 module WriteBack_Cycle(
          clk, rst,
-          ResultW, ResultSrcW, ALUResultW, ReadDataW, PCPlus4W   
+          ResultW, ResultSrcW, ALUResultW, ReadDataW, PCPlus4W, CSR_rdataW   
     );
     input clk, rst;
     input [1:0]ResultSrcW;
-    input [31:0]PCPlus4W, ALUResultW, ReadDataW;
+    input [31:0]PCPlus4W, ALUResultW, ReadDataW, CSR_rdataW;
    
    output [31:0]ResultW;
    
     Mux3 Datamem_reg(
     .a(ALUResultW), 
     .b(ReadDataW), 
-    .c(PCPlus4W), 
+    .c(PCPlus4W),
+    .d(CSR_rdataW), 
     .s(ResultSrcW), 
     .y(ResultW)
     );  

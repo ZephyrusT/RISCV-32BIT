@@ -21,13 +21,14 @@
 
 
 module Mux3(
-    a, b, c, s, y
+    a, b, c,d, s, y
     );
-    input [31:0]a, b, c;
+    input [31:0]a, b, c, d;
     input [1:0]s;
     output [31:0]y;
     assign y = (s==2'b00)?a:
                (s==2'b01)?b:
                (s==2'b10)?c:
+               (s==2'b11)?d:
                32'h0000_0000;
 endmodule

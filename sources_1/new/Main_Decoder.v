@@ -57,7 +57,7 @@ module Main_Decoder(Op,funct3,RS1D,RegWrite,Jump,ImmSrc,ALUSrc,MemWrite,ResultSr
                     (Op == 7'b0100011) ? 3'b001 : 
                     (Op == 7'b1100011) ? 3'b010 :   
                     (Op == 7'b0110111) ? 3'b100 :
-                    (Op == 7'b1110011 &(funct3[2]==1'b1)) ? 3'b110://csr immediate extension
+//                    (Op == 7'b1110011 &(funct3[2]==1'b1)) ? 3'b110://csr immediate extension
                     (Op ==7'b0010011 &
                     (funct3==3'b001|funct3==3'b101))?3'b101: //slli srli srai
                                          3'b000 ;

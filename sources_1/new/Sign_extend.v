@@ -36,6 +36,6 @@ module Sign_extend(
                                                                                                //as it is always zero 0==>0, 4==>100, 8==>1000.
                      (ImmSrc ==3'b011)?({{12{In[31]}},{In[19:12],In[20],In[30:21],1'b0}})://jump and link
                      (ImmSrc ==3'b100)?({{In[31:12]},{12{1'b0}}})://lui
-                     (ImmSrc == 3'b110)?({{27{1'b0}},In[31:20]})://csr immediate extension
+//                     (ImmSrc == 3'b110)?({{27{1'b0}},In[31:20]})://csr immediate extension
                      32'h00000000;
 endmodule

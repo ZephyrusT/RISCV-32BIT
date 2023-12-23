@@ -1,7 +1,7 @@
 
 # RISC-V 32 BIT VERILOG AND FPGA IMPLEMENTATION
 
-Building a RISC V processor in Verilog to demonstrate a diverging sequence a 7-segment display of Basys-3 board.
+Building a RISC V processor in Verilog to demonstrate a diverging sequence a 7-segment display of Basys-3 board. [Done and tested!]
 
 ## Architecture
 ![App Screenshot](image.png)

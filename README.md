@@ -16,10 +16,11 @@ Building a RISC V processor in Verilog to demonstrate a diverging sequence a 7-s
 2. CSR register implementation for unpriveileged counter and cycle counter
 
 ## Things to be modified
-Priority: Add another mux to select between RD1 and RS1D for csrrs and csrrsi respectively.
+Priority: Add another mux to select between RD1 and RS1D for csrrs and csrrsi respectively. [Done 23/12/23: need further tests]
 
 Priority2: Modifications of the architecture diagram.
 
+Priority3: Handling of CSR register hazards.
 1. MemWrite changed to 2 bits from 1 bit.
 2. RegWrite changed to 3 bits from 1 bit.
 3. Addition of CSR block consisting of CSR reg and MUX.

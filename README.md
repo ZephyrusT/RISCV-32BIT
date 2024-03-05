@@ -40,7 +40,7 @@ Priority3: Handling of CSR register hazards.
 | R-type | I-type | S-type | B-type | U-type | J-type |
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | 
 | add | addi  | sw  | beq  | lui | jal  |
-| sub | ori  | sb |  bne|   |    |
+| sub | ori  | sb |  bne|   |jalr    |
 |slt  | andi  | sh  | blt  |   |    |
 | sltu  |slti  |   | bge  |   |    |
 | or  | sltiu |   | bltu  |   |    |

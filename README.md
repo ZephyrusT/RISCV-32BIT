@@ -15,6 +15,8 @@ Building a RISC V processor in Verilog to demonstrate a diverging sequence a 7-s
    
 ## Updates 05/03/24 
 1. Added JALR instruction
+2. Diagrams to be added to the existing architecture
+![App Screenshot](./images/R-Type.png)
 
 ## Updates 16/12/23
 1. Added CSR register which can handle CSRRW, CSRRS, CSRRC, CSRRWI, CSRRCI.

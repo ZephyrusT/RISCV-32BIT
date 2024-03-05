@@ -51,12 +51,12 @@ module Pipelined_Top(
           ImmExtE,PCE,PCPlus4E,PCPlus4M,WriteDataM,ALUResultM,PCPlus4W,
           ALUResultW,ReadDataW;
      wire [4:0]RDW,RDE,RDM, RS1E, RS2E, RS1D, RS2D;
-     wire PCSrcE,ALUSrcE,JumpE,FlushE,BranchE,en_sf,en_sd,RS1D_haz,RS2D_haz;
+     wire PCSrcE,ALUSrcE,FlushE,BranchE,en_sf,en_sd,RS1D_haz,RS2D_haz;
 //     wire [2:0]ALUControlE;
      wire [2:0]RegWriteM,RegWriteE,RegWriteW;
      wire [5:0]ALUControlE;
      wire [1:0]ForwardAE,ForwardBE,ResultSrcE,ResultSrcW,ResultSrcM,MemWriteM,
-          MemWriteE; //for handling hazards
+          MemWriteE,JumpE; //for handling hazards
      wire [31:0]digits_to_display, read_data;
      wire [31:0]CSR_rdataW, PCM,ImmExtM, RD1M;
      //fpga wires

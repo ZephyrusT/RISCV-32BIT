@@ -52,7 +52,8 @@ module Hazard_Unit(
     assign StallF = (((RS1D==RDE) | (RS2D == RDE))&ResultSrcE)?1'b1:1'b0;
     assign StallD = (((RS1D==RDE) | (RS2D == RDE))&ResultSrcE)?1'b1:1'b0;
     assign FlushE = ((((RS1D==RDE) | (RS2D == RDE))&ResultSrcE))|PCSrcE?1'b1:1'b0;
-    assign FlushD = PCSrcE?1'b1:1'b0;
+    assign FlushD = PCSrcE?1'b1:1'b0; //check if the instruction is jump if yes then flush the instructions 
+                                      //till the jump address is reached          
 //    assign StallF = 0;
 //    assign StallD = 0;
 //    assign FlushD = 0;

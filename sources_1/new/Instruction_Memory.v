@@ -39,7 +39,7 @@ module Instruction_Memory(
     initial begin 
 //    $readmemh("C:/Users/Prabhatangshu Phukan/Downloads/RISCV32_PROJECT/memfile.hex", Mem);
 //    $readmemh("C:/Users/Prabhatangshu Phukan/Downloads/RISCV32_PROJECT/memfile_pipeline.hex", Mem);
-//     $readmemh("C:/Users/Prabhatangshu Phukan/Downloads/RISCV32_PROJECT/fibonacci_x6.hex", Mem);
+//    $readmemh("C:/Users/Prabhatangshu Phukan/Downloads/RISCV32_PROJECT/fibonacci_x6.hex", Mem);
 //    $readmemh("C:/Users/Prabhatangshu Phukan/Downloads/RISCV32_PROJECT/sum_x2.hex", Mem);
   //  $readmemh("C:/Users/Prabhatangshu Phukan/Downloads/RISCV32_PROJECT/memfile_pipeline.hex", Mem);
        $readmemh("C:/Users/Prabhatangshu Phukan/Downloads/RISCV32_PROJECT/lw_tb.hex", Mem);

@@ -23,16 +23,15 @@
 
 module Control_Unit_Top(
     Op,RegWrite,ImmSrc,ALUSrc,MemWrite,ResultSrc,
-    Branch,ALUOp,Jump,funct3,funct7,ALUControl,PCSrc
-    ,CSR_reg_wr,CSR_reg_rd,RS1D, RdD,CSR_wd_select, RD1_RS1_sel
+    Branch,ALUOp,Jump,funct3,funct7,ALUControl,CSR_reg_wr,CSR_reg_rd,RS1D, RdD,CSR_wd_select, RD1_RS1_sel
     );
     input [2:0]funct3;
     input [6:0]funct7,Op;
     input [4:0]RS1D, RdD;
 //    input zero; not a input in pipelined version 
-    output ALUSrc,Branch,PCSrc,Jump,CSR_reg_wr,CSR_reg_rd;
+    output ALUSrc,Branch,CSR_reg_wr,CSR_reg_rd;
     output [2:0]RegWrite;
-    output [1:0]ALUOp,ResultSrc,MemWrite;
+    output [1:0]ALUOp,ResultSrc,MemWrite,Jump;
 //    output [2:0]ALUControl;
     output [5:0]ALUControl;
     output [2:0]ImmSrc;
@@ -50,7 +49,6 @@ module Control_Unit_Top(
     .ResultSrc(ResultSrc),
     .Branch(Branch),
     .ALUOp(ALUOp), 
-    .PCSrc(PCSrc),
     .Jump(Jump),
     .funct3(funct3),
     .CSR_reg_wr(CSR_reg_wr),

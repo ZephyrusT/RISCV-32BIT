@@ -40,9 +40,9 @@ module Execute_Cycle(
     input clk, rst;
     
     input [31:0]RD1E, RD2E, PCE, ImmExtE, PCPlus4E;
-    input BranchE,JumpE, ALUSrcE, CSR_reg_wrE, CSR_reg_rdE;
+    input BranchE, ALUSrcE, CSR_reg_wrE, CSR_reg_rdE;
     input [2:0]RegWriteE;
-    input [1:0]MemWriteE;
+    input [1:0]MemWriteE,JumpE;
 //    input [2:0]ALUControlE;
     input [5:0]ALUControlE;
     input [4:0]RDE;
@@ -79,7 +79,7 @@ module Execute_Cycle(
     reg [4:0]RS1E_r;
     
     wire zeroE;
-    wire [31:0]SrcBE, ResultE, SrcAE, SrcBE_haz;
+    wire [31:0]SrcBE, ResultE, SrcAE, SrcBE_haz,Reg_PC_out;
     
     ALU ALU(
     .A(SrcAE), 
@@ -107,6 +107,13 @@ module Execute_Cycle(
     .s(Forward_BE), 
     .y(SrcBE_haz)
     );
+    //Below mux to select the register output for JALR instruction
+    Mux PC_mux(
+    .Y(Reg_PC_out), 
+    .A(PCE), 
+    .B(RD1E), 
+    .S(JumpE[1])
+    );
     
     Mux ALU_mux(
     .Y(SrcBE), 
@@ -116,7 +123,7 @@ module Execute_Cycle(
     );
     
     PC_Adder PC_Adder(
-    .a(PCE), 
+    .a(Reg_PC_out[31:0]),
     .b(ImmExtE), 
     .sum(PCTargetE)
     );
@@ -161,8 +168,8 @@ module Execute_Cycle(
     end
     
     assign PCSrcE = (rst==1'b0)?1'b0:
-                    ((zeroE & BranchE==1'b1)|JumpE)?1'b1:
-                                                    1'b0;
+                    ((zeroE & BranchE==1'b1)|JumpE!=2'b00)?1'b1:
+                                                    1'b0;   
  
     assign RegWriteM = (rst==1'b0)?3'b000:RegWriteE_r;
     assign ResultSrcM = (rst==1'b0)?2'b00:ResultSrcE_r;

@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module Main_Decoder(Op,funct3,RS1D,RegWrite,Jump,ImmSrc,ALUSrc,MemWrite,ResultSrc,Branch,ALUOp, PCSrc,
+module Main_Decoder(Op,funct3,RS1D,RegWrite,Jump,ImmSrc,ALUSrc,MemWrite,ResultSrc,Branch,ALUOp,
         CSR_reg_wr,CSR_reg_rd,RdD,CSR_wd_select, RD1_RS1_sel);
     
 //    input zero; not input in pipelined version 
@@ -28,9 +28,9 @@ module Main_Decoder(Op,funct3,RS1D,RegWrite,Jump,ImmSrc,ALUSrc,MemWrite,ResultSr
     input [2:0]funct3;
     input [4:0]RS1D, RdD;
     
-    output  ALUSrc,Branch, PCSrc,Jump;
+    output  ALUSrc,Branch;
     output [2:0]RegWrite;
-    output [1:0]ALUOp,ResultSrc,MemWrite;
+    output [1:0]ALUOp,ResultSrc,MemWrite,Jump;
     output [2:0]ImmSrc;
     output CSR_reg_wr,CSR_reg_rd;
     output [1:0]CSR_wd_select;
@@ -41,7 +41,8 @@ module Main_Decoder(Op,funct3,RS1D,RegWrite,Jump,ImmSrc,ALUSrc,MemWrite,ResultSr
     assign RegWrite = ((Op == 7'b0000011 & funct3 == 3'b010)| 
                         Op == 7'b0110011 |
                         Op == 7'b0010011 |//i-type
-                        Op == 7'b1101111 |
+                        Op == 7'b1101111 |//JAL
+                        Op == 7'b1100111| //JALR
                        (Op == 7'b1110011 & funct3 !==3'b000)|//csrrw
                         Op==7'b0110111) ? 3'b001 :
                         (Op == 7'b0000011 & funct3 == 3'b000)? 3'b010: //lb
@@ -66,7 +67,8 @@ module Main_Decoder(Op,funct3,RS1D,RegWrite,Jump,ImmSrc,ALUSrc,MemWrite,ResultSr
                      Op == 7'b0100011 |
                      Op == 7'b0010011 |//I-type
 //                     Op == 7'b1110011 |
-                     Op==7'b0110111) ? 1'b1 :1'b0 ;
+                     Op==7'b0110111
+                     ) ? 1'b1 :1'b0 ;
                      
     assign MemWrite = (Op == 7'b0100011 & funct3 == 3'b010) ? 2'b01 : //sw
                       (Op == 7'b0100011 & funct3 == 3'b000) ? 2'b11 : //sb store byte      => 8 bits
@@ -76,7 +78,7 @@ module Main_Decoder(Op,funct3,RS1D,RegWrite,Jump,ImmSrc,ALUSrc,MemWrite,ResultSr
     assign ResultSrc =  (Op == 7'b0000011) ? 2'b01 :
                         (Op == 7'b0110011|Op == 7'b0010011) ? 2'b00 :
                         (Op == 7'b1110011)?2'b11://csrrw
-                        (Op == 7'b1101111) ? 2'b10 :
+                        (Op == 7'b1101111|Op == 7'b1100111) ? 2'b10 :
                                             2'b00 ;
                                             
     assign Branch = (Op == 7'b1100011) ? 1'b1 :
@@ -86,7 +88,9 @@ module Main_Decoder(Op,funct3,RS1D,RegWrite,Jump,ImmSrc,ALUSrc,MemWrite,ResultSr
                    (Op == 7'b0110011|Op == 7'b0010011) ? 2'b10 : //r-type and i-type
                    (Op == 7'b1100011) ? 2'b01 :                  //branch instructions
                                         2'b00 ; 
-    assign Jump = (Op==7'b1101111)?1'b1:1'b0;           
+    assign Jump = (Op==7'b1101111)?2'b01:
+                  (Op==7'b1100111)?2'b10:
+                    1'b00;           
    ///CSR logic below
    
    //Read is always performed if the instruction is any of these(CSRRS, CSRRC or CSRRSI, CSRRCI)

@@ -39,9 +39,9 @@ module Decode_Cycle(
     input Flush;
     
     output [31:0]RD1E, RD2E, PCE, ImmExtE, PCPlus4E;
-    output  BranchE, ALUSrcE, JumpE, CSR_reg_wrE, CSR_reg_rdE;
+    output  BranchE, ALUSrcE, CSR_reg_wrE, CSR_reg_rdE;
     output [2:0]RegWriteE;
-    output [1:0]CSR_wd_selectE;
+    output [1:0]CSR_wd_selectE, JumpE;
     output RD1E_RS1E_sel;
     
 //    output [2:0]ALUControlE;
@@ -52,9 +52,9 @@ module Decode_Cycle(
   //  output [31:0]digits_to_display; //fpga display
     
     wire [31:0]RD1D, RD2D, Imm_ExtD;
-    wire ALUSrcD, BranchD,JumpD; 
+    wire ALUSrcD, BranchD; 
     wire [2:0]RegWriteD;
-    wire [1:0]ResultSrcD, MemWriteD;
+    wire [1:0]ResultSrcD, MemWriteD,JumpD;
     wire [2:0]ImmSrcD;
 //    wire [2:0]ALUControlD;
     wire [5:0]ALUControlD;
@@ -62,8 +62,8 @@ module Decode_Cycle(
     wire [1:0]CSR_wd_selectD;
     //Intermediate Registers
     reg [31:0]RD1D_r, RD2D_r, Imm_ExtD_r,PCD_r, PCPlus4D_r;
-    reg ALUSrcD_r, BranchD_r, JumpD_r,CSR_reg_wrD_r, CSR_reg_rdD_r; 
-    reg [1:0]CSR_wd_selectD_r;
+    reg ALUSrcD_r, BranchD_r,CSR_reg_wrD_r, CSR_reg_rdD_r; 
+    reg [1:0]CSR_wd_selectD_r, JumpD_r;
     reg [2:0]RegWriteD_r;
     reg [1:0]ResultSrcD_r, MemWriteD_r;
     reg RD1D_RS1D_sel_r;
@@ -118,7 +118,7 @@ module Decode_Cycle(
             RegWriteD_r <=3'b000;
             ALUSrcD_r<=1'b0;
             MemWriteD_r<=2'b00;
-            JumpD_r<=1'b0;
+            JumpD_r<=2'b00;
             ResultSrcD_r<=2'b00;        //what signals to reset during stalling
             BranchD_r<=1'b0;
             ALUControlD_r <=3'b000;
@@ -139,7 +139,7 @@ module Decode_Cycle(
             RegWriteD_r <=3'b000;
             ALUSrcD_r<=1'b0;
             MemWriteD_r<=2'b00;
-            JumpD_r<=1'b0;
+            JumpD_r<=2'b00;
             ResultSrcD_r<=2'b00;        //what signals to reset during flush
             BranchD_r<=1'b0;
             ALUControlD_r <=6'b000_000;
@@ -174,7 +174,7 @@ end
         assign RegWriteE = (rst==1'b0)?3'b000:RegWriteD_r;
         assign ResultSrcE = (rst==1'b0)?2'b00:ResultSrcD_r;
         assign MemWriteE = (rst==1'b0)?2'b00:MemWriteD_r;
-        assign JumpE = (rst==1'b0)?1'b0:JumpD_r;
+        assign JumpE = (rst==1'b0)?2'b00:JumpD_r;
         assign BranchE = (rst==1'b0)?1'b0:BranchD_r;
         assign ALUControlE = (rst==1'b0)?6'b000_000:ALUControlD_r;
         assign ALUSrcE = (rst==1'b0)?1'b0:ALUSrcD_r;
